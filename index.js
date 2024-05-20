@@ -47,8 +47,9 @@ app.get("/auth/failure", (req, res) => {
   res.send("something went wrong...");
 });
 
-app.get("/protected", verifyToken, (req, res) => {
-  res.send(req.user.displayName);
+app.get("/protected", verifyToken, async (req, res) => {
+  const user = await User.findById(req.user.userId);
+  res.json({ user: user });
 });
 
 app.get("/logout", (req, res) => {
