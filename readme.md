@@ -3,6 +3,9 @@ Step-by-Step Integration of Google OAuth2 with JWT Authentication in an Express 
 1 .npm install express express-session passport passport-google-oauth2 mongoose dotenv jsonwebtoken cookie-parser
 
 2.
+Here's the directory structure represented in markdown:
+
+```
 project-root/
 ├── auth.js
 ├── verifyJwt.js
@@ -11,6 +14,9 @@ project-root/
 ├── model/
 │   └── User.js
 └── package.json
+```
+
+
 
 3 
 .Add your environment variables in a .env file
