@@ -6,14 +6,11 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 require("./auth");
 const User = require("./model/User");
-const verifyToken = require("./authverifJwt");
+const verifyToken = require("./verifyJwt");
 
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
 const app = express();
 app.use(cookieParser());
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(session({ secret: "bats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
