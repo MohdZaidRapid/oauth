@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 require("./auth");
 const User = require("./model/User");
@@ -11,6 +12,7 @@ function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
 }
 const app = express();
+app.use(cookieParser());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,8 +35,11 @@ app.get(
 
     // Redirect or send response with JWT token
     // For example, you can send it as JSON
-    
-    res.json({ user, token });
+
+    res.cookie("jwt", token, { httpOnly: true, secure: false }); // secure: true for HTTPS
+
+    // Redirect to protected route
+    res.redirect("/protected");
   }
 );
 
@@ -47,14 +52,7 @@ app.get("/protected", verifyToken, (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      console.error("Error logging out:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/");
-  });
-  req.session.destroy();
+  res.clearCookie("jwt");
   res.send("Goodbye!");
 });
 
