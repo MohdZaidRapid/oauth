@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 require("./auth");
 const User = require("./model/User");
+const verifyToken = require("./authverifJwt");
 
 function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
@@ -32,6 +33,7 @@ app.get(
 
     // Redirect or send response with JWT token
     // For example, you can send it as JSON
+    
     res.json({ user, token });
   }
 );
@@ -40,7 +42,7 @@ app.get("/auth/failure", (req, res) => {
   res.send("something went wrong...");
 });
 
-app.get("/protected", isLoggedIn, (req, res) => {
+app.get("/protected", verifyToken, (req, res) => {
   res.send(req.user.displayName);
 });
 
