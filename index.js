@@ -8,9 +8,9 @@ function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
 }
 const app = express();
-app.use(session({secret:"cats"}))
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(session({ secret: "cats" }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.send('<a href="/auth/google">Autheticate with Google</a>');
@@ -22,7 +22,7 @@ app.get(
 );
 
 app.get(
-  "/goolgle/callback",
+  "/google/callback",
   passport.authenticate("google", {
     successRedirect: "/protected",
     failureRedirect: "/auth/failure",
@@ -34,7 +34,19 @@ app.get("/auth/failure", (req, res) => {
 });
 
 app.get("/protected", isLoggedIn, (req, res) => {
-  res.send("Hello");
+  res.send("Hello", req.user.displayName);
+});
+
+app.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error("Error logging out:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.redirect("/");
+  });
+  req.session.destroy();
+  res.send("Goodbye!");
 });
 
 app.listen(5000, () => console.log("listening on: 5000"));

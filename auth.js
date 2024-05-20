@@ -9,14 +9,15 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/callback",
+      callbackURL: "http://localhost:5000/google/callback",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
       //   User.findOrCreate({ googleId: profile.id }, function (err, user) {
       //     return done(err, user);
       //   });
-      return done(err, profile);
+      console.log(profile);
+      return done(null, profile);
     }
   )
 );
