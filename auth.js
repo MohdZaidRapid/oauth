@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
-// inittialize google strategy
+// initialize google strategy
 passport.use(
   new GoogleStrategy(
     {
