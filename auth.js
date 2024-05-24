@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
-
+// inittialize google strategy
 passport.use(
   new GoogleStrategy(
     {
@@ -21,6 +21,7 @@ passport.use(
       passReqToCallback: true,
     },
     async function (request, accessToken, refreshToken, profile, done) {
+      console.log(profile);
       //   User.findOrCreate({ googleId: profile.id }, function (err, user) {
       //     return done(err, user);
       //   });
